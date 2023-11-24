@@ -17,11 +17,14 @@
   </head>
   <body class="h-[120vh]">
     <div class="p-8">
+      <!-- Heading -->
       <h1 class="text-white text-lg font-bold mb-10 text-center">
         アーティスト音楽試聴データ検索サイト
       </h1>
+      <!-- // Heading -->
 
       <div class="">
+        <!-- 検索部分 -->
         <div class="mb-10 flex justify-center align-center">
           <input
             type="text"
@@ -45,8 +48,11 @@
             </button>
           </div>
         </div>
+        <!-- // 検索部分 -->
 
+        <!-- 検索結果 -->
         <div class="w-1/2 mx-auto hidden" id="resultWrapper">
+          <!-- 曲名でソート -->
           <div class="flex justify-center mb-8" id="sortArea">
             <div class="flex justify-center align-center w-[500px]">
               <input
@@ -57,15 +63,22 @@
               />
             </div>
           </div>
+          <!-- // 曲名でソート -->
+
+          <!-- 検索結果表示部分 -->
           <div
             id="resultArea"
             class="flex flex-col gap-4 border-solid mb-2 cursor-pointer"
           >
+            <!-- ローディング -->
             <div id="loading" class="flex justify-center py-8 hidden">
               <span class="loading loading-spinner loading-lg"></span>
             </div>
+            <!-- // ローディング -->
           </div>
+          <!-- // 検索結果表示部分 -->
         </div>
+        <!-- // 検索結果 -->
       </div>
     </div>
     <script src="assets/js/script.js"></script>
