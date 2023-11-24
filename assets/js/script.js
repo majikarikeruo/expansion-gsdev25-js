@@ -1,6 +1,7 @@
 const btn = document.querySelector("#btn");
 const resultWrapper = document.querySelector("#resultWrapper");
 const resultArea = document.querySelector("#resultArea");
+const sortWord = document.querySelector("#sortWord");
 const loading = document.querySelector("#loading");
 
 const url = `https://itunes.apple.com/search`;
@@ -50,16 +51,6 @@ function toggleLoadingState() {
 }
 
 /**********************************************************
- * @function toggleLoadingState
- * @param {*} item
- * @returns
- *********************************************************/
-
-function toggleLoadingState() {
-  loading.classList.toggle("hidden");
-}
-
-/**********************************************************
  * @function updateDOMWithMusicData
  * @param {*} data
  * APIから取得したデータをもとに楽曲一覧のHTMLを挿入する
@@ -81,18 +72,44 @@ function updateDOMWithMusicData(data) {
  * @returns
  *********************************************************/
 function toggleSound(event) {
-  // 現在再生中の曲があれば停止する
+  const isPlayButton = event.target.closest(".js-btn-play");
+  const previewUrl =
+    event.target.closest("button").getAttribute("data-preview-url") || null;
+
   if (currentPlayingAudio) {
     currentPlayingAudio.pause();
-    currentPlayingAudio = null;
-  } else {
-    const previewUrl = event.target
-      .closest(".js-btn-play")
-      .getAttribute("data-preview-url");
+  }
 
+  if (isPlayButton) {
     currentPlayingAudio = new Audio(previewUrl);
     currentPlayingAudio.play();
+  } else {
+    currentPlayingAudio = null;
   }
+}
+
+/**********************************************************
+ * @function sortResultData
+ * @param {*} item
+ * @returns
+ *********************************************************/
+function sortResultData() {
+  const sortKeyword = sortWord.value;
+
+  if (!sortKeyword.trim()) {
+    updateDOMWithMusicData({ results: resultData });
+    return;
+  }
+
+  const sortResult = resultData.filter((item) =>
+    item.trackName.toLowerCase().includes(sortKeyword)
+  );
+  const result = sortResult.reduce(
+    (accumulator, item) => accumulator + getSongTemplate(item),
+    ""
+  );
+
+  resultArea.innerHTML = result;
 }
 
 /**********************************************************
@@ -102,7 +119,7 @@ function toggleSound(event) {
  *********************************************************/
 async function fetchMusicData() {
   const keyword = document.querySelector("#keyword").value;
-  const limit = document.querySelector("#limit").value;
+  const limit = document.querySelector("#limit").value || 30;
 
   if (!keyword) {
     return false;
@@ -140,3 +157,4 @@ async function fetchMusicData() {
 
 btn.addEventListener("click", fetchMusicData);
 resultArea.addEventListener("click", toggleSound);
+sortWord.addEventListener("keyup", sortResultData);
