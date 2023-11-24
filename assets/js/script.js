@@ -1,5 +1,4 @@
 const btn = document.querySelector("#btn");
-const resultWrapper = document.querySelector("#resultWrapper");
 const resultArea = document.querySelector("#resultArea");
 const sortWord = document.querySelector("#sortWord");
 const loading = document.querySelector("#loading");
@@ -13,7 +12,7 @@ let resultData = [];
  * @param {*} item
  * 楽曲のHTMLテンプレートを返す
  *********************************************************/
-function getSongTemplate(item) {
+function getTemplate(item) {
   return `<div class="flex bg-white p-4">
             <div class="mr-6">
                 <img src="${item.artworkUrl100}" alt="" />
@@ -58,11 +57,10 @@ function toggleLoadingState() {
 
 function updateDOMWithMusicData(data) {
   const result = data.results.reduce(
-    (accumulator, item) => accumulator + getSongTemplate(item),
+    (acc, item) => acc + getTemplate(item),
     ""
   );
   resultData = [...data.results];
-  console.log(resultData);
   resultArea.innerHTML = result;
 }
 
@@ -94,20 +92,17 @@ function toggleSound(event) {
  * @returns
  *********************************************************/
 function sortResultData() {
-  const sortKeyword = sortWord.value;
+  const songKeyword = sortWord.value;
 
-  if (!sortKeyword.trim()) {
+  if (!songKeyword.trim()) {
     updateDOMWithMusicData({ results: resultData });
     return;
   }
 
   const sortResult = resultData.filter((item) =>
-    item.trackName.toLowerCase().includes(sortKeyword)
+    item.trackName.includes(songKeyword)
   );
-  const result = sortResult.reduce(
-    (accumulator, item) => accumulator + getSongTemplate(item),
-    ""
-  );
+  const result = sortResult.reduce((acc, item) => acc + getTemplate(item), "");
 
   resultArea.innerHTML = result;
 }
@@ -145,7 +140,8 @@ async function fetchMusicData() {
       throw new Error("APIリクエストに失敗しました");
     }
 
-    resultWrapper.classList.remove("hidden");
+    resultArea.classList.remove("hidden");
+
     const data = await res.json();
     updateDOMWithMusicData(data);
   } catch (error) {

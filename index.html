@@ -50,22 +50,21 @@
         </div>
         <!-- // 検索部分 -->
 
-        <!-- 検索結果 -->
-        <div class="w-1/2 mx-auto hidden" id="resultWrapper">
-          <!-- 曲名でソート -->
-          <div class="flex justify-center mb-8" id="sortArea">
-            <div class="flex justify-center align-center w-[500px]">
-              <input
-                type="text"
-                placeholder="曲名を絞り込みます"
-                id="sortWord"
-                class="input input-bordered w-full text-black rounded-sm"
-              />
-            </div>
+        <!-- 曲名でソート -->
+        <div class="flex justify-center mb-8" id="sortArea">
+          <div class="flex justify-center align-center w-[500px]">
+            <input
+              type="text"
+              placeholder="曲名を絞り込みます"
+              id="sortWord"
+              class="input input-bordered w-full text-black rounded-sm"
+            />
           </div>
-          <!-- // 曲名でソート -->
+        </div>
+        <!-- // 曲名でソート -->
 
-          <!-- 検索結果表示部分 -->
+        <!-- 検索結果 -->
+        <div class="w-1/2 mx-auto" id="resultWrapper">
           <div
             id="resultArea"
             class="flex flex-col gap-4 border-solid mb-2 cursor-pointer"
@@ -76,7 +75,6 @@
             </div>
             <!-- // ローディング -->
           </div>
-          <!-- // 検索結果表示部分 -->
         </div>
         <!-- // 検索結果 -->
       </div>
