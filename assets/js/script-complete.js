@@ -133,12 +133,17 @@ async function fetchMusicData() {
       limit: limit,
     };
 
-    const res = await axios.get(url, { params });
+    const query = new URLSearchParams(params);
+    const res = await fetch(`${url}?${query}`);
+
+    if (res.status !== 200) {
+      throw new Error("APIリクエストに失敗しました");
+    }
 
     resultArea.classList.remove("hidden");
 
-    // const data = await res.json();
-    updateDOMWithMusicData(res.data);
+    const data = await res.json();
+    updateDOMWithMusicData(data);
   } catch (error) {
     console.error("エラーが発生しました:", error);
   } finally {
